@@ -7,8 +7,8 @@ These versions of OUTRIDER and FRASER were distributed under the MIT license. Fo
 
 ### 1. Clone git repository
 ```
-git clone https://github.com/Timniem/rna_outlier_pipeline.git
-cd rna_outlier_pipeline
+git clone https://github.com/molgenis/transcriptome-analysis-pipeline.git
+cd transcriptome-analysis-pipeline
 ```
 
 

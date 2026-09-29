@@ -19,7 +19,7 @@ workflow Outrider_Fraser_MAE_nf {
     .fromPath( params.samplesheet )
     .splitCsv( header: true, sep: '\t' )
     .map { row -> tuple( row.sampleID, row.bamFile, row.pairedEnd, row.strandSpecific ) }
-    | OutriderCount
+    | view { row }
     | collect
     | set { merge_ch }
 
@@ -109,7 +109,8 @@ workflow Outrider_counts_nf {
     Channel
     .fromPath( params.samplesheet )
     .splitCsv( header: true, sep: '\t' )
-    .map { row -> row.outriderCounts }
+    .map { row -> row.expressionFile }
+    | view { "expression file: ${it}" }
     | collect
     | set { merge_ch }
 
@@ -129,6 +130,12 @@ workflow Outrider_counts_nf {
     | collect
     | MergeQfiles
     | set { outrider_ch }
+    
+    // Start OUTRIDER
+    outrider_ch
+    | map { it -> tuple( "$params.output/outrider/outrider.rds", it, params.samplesheet )} //Hacky to include the outputdir outrider.rds.
+    | Outrider
+    
 }
 
 
